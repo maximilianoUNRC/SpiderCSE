@@ -3,17 +3,17 @@ import pika
 import os
 
 
-credentials=pika.PlainCredentials('user','user')
-connection = pika.BlockingConnection(pika.ConnectionParameters('127.0.0.1',5672,'/',credentials)) # Connect to CloudAMQP
+credentials=pika.PlainCredentials('asus','asus')
+connection = pika.BlockingConnection(pika.ConnectionParameters('192.168.0.103',5672,'/',credentials)) # Connect to CloudAMQP
 channel = connection.channel()
 
-channel.exchange_declare(exchange='logs',
+channel.exchange_declare(exchange='mensaje',
                          type='fanout')
 
 result = channel.queue_declare(exclusive=True)
 queue_name = result.method.queue
 
-channel.queue_bind(exchange='logs',
+channel.queue_bind(exchange='mensaje',
                    queue=queue_name)
 
 print(' [*] Waiting for logs. To exit press CTRL+C')
